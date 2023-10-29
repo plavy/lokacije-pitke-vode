@@ -18,10 +18,12 @@ Cities covered:
 - Natural source - Yes/No
 - Geolocation
   - Longitude
-  - Lattitude
+  - Latitude
 - Address
   - Country
+  - Province
   - City
   - Street
 - Maintainer
-- Operational since
+- Year of opening
+- Currently operation - Yes/No
