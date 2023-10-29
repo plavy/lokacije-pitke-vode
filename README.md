@@ -15,7 +15,7 @@ Cities covered:
 
 - Id
 - Name
-- Type
+- Natural source - Yes/No
 - Geolocation
   - Longitude
   - Lattitude
