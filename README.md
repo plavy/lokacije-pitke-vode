@@ -1,7 +1,5 @@
 # Locations of free drinking water
 
-## Metadata
-
 Author: Tin Plavec
 
 Version: 1.0
