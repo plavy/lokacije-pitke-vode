@@ -14,6 +14,8 @@ Cities covered:
 ## Attributes
 
 - Id
+- Name
+- Type
 - Geolocation
   - Longitude
   - Lattitude
@@ -21,6 +23,5 @@ Cities covered:
   - Country
   - City
   - Street
-- Type
 - Maintainer
 - Operational since
