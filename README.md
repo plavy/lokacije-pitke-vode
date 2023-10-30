@@ -24,6 +24,7 @@ Cities covered:
   - Longitude
   - Latitude
 - Maintainer
+	- Id
   - Country
   - Province
   - City
