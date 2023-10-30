@@ -26,4 +26,4 @@ Cities covered:
   - Street
 - Maintainer
 - Year of opening
-- Currently operation - Yes/No
+- Currently operational - Yes/No
