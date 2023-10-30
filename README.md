@@ -6,6 +6,10 @@ Version: 1.0
 
 Language of data: English
 
+Keywords:
+- water
+- source
+
 Cities covered:
 - Zagreb, Croatia
 
@@ -19,11 +23,10 @@ Cities covered:
 - Geolocation
   - Longitude
   - Latitude
-- Address
+- Maintainer
   - Country
   - Province
   - City
   - Street
-- Maintainer
 - Year of opening
 - Currently operational - Yes/No
