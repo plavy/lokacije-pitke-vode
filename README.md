@@ -23,6 +23,7 @@ Cities covered:
 - Geolocation
   - Longitude
   - Latitude
+	- Altitude
 - Maintainer
 	- Id
   - Country
@@ -30,4 +31,3 @@ Cities covered:
   - City
   - Street
 - Year of opening
-- Currently operational - Yes/No
