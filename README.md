@@ -33,11 +33,11 @@ Cities covered:
   - Street
 - Year of opening
 
-| id | ID of the water location
-| name | Name of the water location (not required)
-| natural_source | If water is from natural source or water system
-| geolocation_latitude | Latitude of the water location
-| geolocation_longitude | Longitude of the water location
-| geolocation_altitude | Altitude of the water location
-| maintainer | Responsible maintainer for the water location
-| year_of_opening | Year when the water location was put into operation
+| id | ID of the water location |
+| name | Name of the water location (not required) |
+| natural_source | If water is from natural source or water system |
+| geolocation_latitude | Latitude of the water location |
+| geolocation_longitude | Longitude of the water location |
+| geolocation_altitude | Altitude of the water location |
+| maintainer | Responsible maintainer for the water location |
+| year_of_opening | Year when the water location was put into operation |
