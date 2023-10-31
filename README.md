@@ -9,6 +9,7 @@ Language of data: English
 Keywords:
 - water
 - source
+- geolocation
 
 Cities covered:
 - Zagreb, Croatia
@@ -23,7 +24,7 @@ Cities covered:
 - Geolocation
   - Longitude
   - Latitude
-	- Altitude
+  - Altitude
 - Maintainer
 	- Id
   - Country
