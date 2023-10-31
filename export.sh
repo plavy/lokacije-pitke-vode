@@ -5,6 +5,9 @@ export PGUSER=postgres
 export PGPASSWORD=postgres
 export PGDATABASE=or
 
+# Dump database
+pg_dump --clean > dump.sql
+
 # Export to CSV
 psql -c "\copy (SELECT locations.id, locations.name, locations.natural_source, locations.geolocation_latitude, locations.geolocation_longitude, locations.geolocation_altitude, locations.year_of_opening, maintainers.name AS maintainer_name, maintainers.street AS maintainer_street, maintainers.city AS maintainer_city, maintainers.province AS maintainer_province, maintainers.country AS maintainer_country FROM locations INNER JOIN maintainers ON locations.maintainer_id = maintainers.id) to '${PWD}/locations.csv' delimiter ',' csv header"
 
@@ -13,4 +16,3 @@ psql -AtX -c "SELECT JSON_AGG(tab) FROM (SELECT locations.id, locations.name, lo
 
 jq . locations.json
 
-pg_dump --clean > dump.sql

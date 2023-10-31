@@ -14,7 +14,20 @@ Keywords:
 Cities covered:
 - Zagreb, Croatia
 
+## Short description
+
+This open dataset lists locations where drinking water is available for free.
+For every water location a precise geolocation is specified, as well as the responsible maintainer.
+
+NOTE: Water locations listed here should be, but are not guaranteed to be working. Please check with the maintainer.
+
 ## Licence
+
+Under licence: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+
+You are free to share and adapt.
+You must give appropriate credit.
+If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.
 
 ## Attributes
 
