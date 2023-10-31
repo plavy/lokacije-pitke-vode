@@ -1,3 +1,3 @@
-id,name,natural_source,geolocation_latitude,geolocation_longitude,year_of_opening,currently_operational,maintainer_name,maintainer_country,maintainer_province,maintainer_city,maintainer_street
-2,Francek,f,45.810339,15.978541,2004,t,Vodoopskrba i odvodnja d.o.o.,Croatia,Grad Zagreb,Zagreb,Folnegovićeva 1
-1,Francek,f,45.820141,16.016171,2005,t,Vodoopskrba i odvodnja d.o.o.,Croatia,Grad Zagreb,Zagreb,Folnegovićeva 1
+id,name,natural_source,geolocation_latitude,geolocation_longitude,geolocation_altitude,year_of_opening,maintainer_name,maintainer_street,maintainer_city,maintainer_province,maintainer_country
+2,Francek,f,45.810339,15.978541,128.00,2004,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
+1,Francek,f,45.820141,16.016171,125.10,2005,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
