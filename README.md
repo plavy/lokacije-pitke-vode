@@ -33,6 +33,8 @@ Cities covered:
   - Street
 - Year of opening
 
+| Attribute | Description |
+| --- | --- |
 | id | ID of the water location |
 | name | Name of the water location (not required) |
 | natural_source | If water is from natural source or water system |
