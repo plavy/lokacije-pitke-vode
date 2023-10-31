@@ -66,6 +66,8 @@ ALTER TABLE public.maintainers OWNER TO postgres;
 COPY public.locations (id, name, natural_source, geolocation_latitude, geolocation_longitude, geolocation_altitude, maintainer_id, year_of_opening) FROM stdin;
 2	Francek	f	45.810339	15.978541	128.00	1	2004
 1	Francek	f	45.820141	16.016171	125.10	1	2005
+3	Francek	f	45.829850	16.027303	137.20	1	2004
+4	Francek	f	45.802842	15.973013	118.30	1	2006
 \.
 
 
