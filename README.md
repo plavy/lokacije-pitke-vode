@@ -2,7 +2,7 @@
 
 Author: Tin Plavec
 
-Version: 1.0
+Version: 2.0
 
 Language of data: English
 
