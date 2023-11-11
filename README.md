@@ -31,7 +31,7 @@ If you remix, transform, or build upon the material, you must distribute your co
 
 ## Attributes
 
-Data is organized in two tables.
+Data is organized in two tables and one additional table that defines relations.
 
 Table `locations` has these attributes:
 
