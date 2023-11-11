@@ -1,0 +1,15 @@
+id,name,natural_source,geolocation_latitude,geolocation_longitude,geolocation_altitude,year_of_opening,id,name,street,city,province,country
+1,Francek,f,45.820141,16.016171,125.10,2005,1,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
+2,Francek,f,45.810339,15.978541,128.00,2004,1,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
+3,Francek,f,45.829850,16.027303,137.20,2004,1,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
+4,Francek,f,45.802842,15.973013,118.30,2006,1,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
+5,Kobiljak,t,45.835316,15.887524,248.00,,2,Hrvatske vode,Ulica Grada Vukovara 220,Zagreb,Grad Zagreb,Croatia
+6,Raspelo,t,45.866636,15.974636,305.60,,3,Park prirode Medvednica,Bliznec 70,Zagreb,Grad Zagreb,Croatia
+6,Raspelo,t,45.866636,15.974636,305.60,,2,Hrvatske vode,Ulica Grada Vukovara 220,Zagreb,Grad Zagreb,Croatia
+7,Vidovec,t,45.912108,15.895328,314.20,,2,Hrvatske vode,Ulica Grada Vukovara 220,Zagreb,Grad Zagreb,Croatia
+7,Vidovec,t,45.912108,15.895328,314.20,,3,Park prirode Medvednica,Bliznec 70,Zagreb,Grad Zagreb,Croatia
+8,Pojilo,t,45.938071,16.045869,291.70,,2,Hrvatske vode,Ulica Grada Vukovara 220,Zagreb,Grad Zagreb,Croatia
+8,Pojilo,t,45.938071,16.045869,291.70,,3,Park prirode Medvednica,Bliznec 70,Zagreb,Grad Zagreb,Croatia
+9,,t,45.842829,15.886123,327.50,,2,Hrvatske vode,Ulica Grada Vukovara 220,Zagreb,Grad Zagreb,Croatia
+9,,t,45.842829,15.886123,327.50,,3,Park prirode Medvednica,Bliznec 70,Zagreb,Grad Zagreb,Croatia
+10,Francek,f,45.795965,15.982229,115.00,,1,Vodoopskrba i odvodnja d.o.o.,Folnegovićeva 1,Zagreb,Grad Zagreb,Croatia
