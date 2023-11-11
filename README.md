@@ -43,7 +43,6 @@ Table `locations` has these attributes:
 | geolocation_latitude | Latitude of the water location | numeric(9, 6) | yes |
 | geolocation_longitude | Longitude of the water location | numeric(9, 6) | yes |
 | geolocation_altitude | Altitude of the water location | numeric(6, 2) | yes |
-| maintainer_id | ID of the responsible maintainer for the water location | integer | yes (FK) |
 | year_of_opening | Year when the water location was put into operation | integer | no |
 
 Table `maintainers` has these attributes:
@@ -56,3 +55,14 @@ Table `maintainers` has these attributes:
 | city | City of the maintainer | varchar(100) | yes |
 | province | Province or region of the maintainer | varchar(100) | yes |
 | country | Country of the maintainer | varchar(100) | yes |
+
+Finally, table `locations_maintainers` defines relation between the two tables, with attributes:
+
+| Attribute | Description | PSQL Datatype | Required |
+| --- | --- | --- | --- |
+| id | ID of the relation | integer | yes (PK) |
+| location_id | ID of the location | integer | yes(FK) |
+| maintainer_id | ID of the responsible maintainer | integer | yes(FK) |
+
+
+
