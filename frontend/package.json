@@ -1,0 +1,15 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Locations of free drinking water",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tin Plavec",
+  "license": "CC-BY-SA-4.0",
+  "dependencies": {
+    "datatables.net-dt": "^1.13.7",
+    "express": "^4.18.2"
+  }
+}
