@@ -56,13 +56,10 @@ Table `maintainers` has these attributes:
 | province | Province or region of the maintainer | varchar(100) | yes |
 | country | Country of the maintainer | varchar(100) | yes |
 
-Finally, table `locations_maintainers` defines relation between the two tables, with attributes:
+Finally, table `locations_maintainers` defines relations between the two tables, with attributes:
 
 | Attribute | Description | PSQL Datatype | Required |
 | --- | --- | --- | --- |
 | id | ID of the relation | integer | yes (PK) |
-| location_id | ID of the location | integer | yes(FK) |
-| maintainer_id | ID of the responsible maintainer | integer | yes(FK) |
-
-
-
+| location_id | ID of the location | integer | yes (FK) |
+| maintainer_id | ID of the responsible maintainer | integer | yes (FK) |
