@@ -12,6 +12,27 @@
   <div>
     <h1>Locations of free drinking water</h1>
   </div>
+  <form action="">
+    <label for="query">Search:</label>
+    <input type="text" id="query" placeholder="Type a query" name="query">
+    <select id="field" name="field">
+      <option value="wildcard">All fields</option>
+      <option value="id">ID</option>
+      <option value="name">Name</option>
+      <option value="natural_source">Natural source</option>
+      <option value="geolocation_latitude">Latitude</option>
+      <option value="geolocation_longitude">Longitude</option>
+      <option value="geolocation_altitude">Altitude</option>
+      <option value="year_of_opening">Year of opening</option>
+      <option value="maintainer_id">Maintainer ID</option>
+      <option value="maintainer_name">Maintainer name</option>
+      <option value="maintainer_street">Maintainer street</option>
+      <option value="maintainer_city">Maintainer city</option>
+      <option value="maintainer_province">Maintainer province</option>
+      <option value="maintainer_country">Maintainer country</option>
+    </select>
+  </form>
+  <br />
   <table id="locationsTable" class="display nowrap" style="width:100%">
     <thead>
       <tr>
@@ -23,41 +44,60 @@
         <th>Altitude</th>
         <th>Year of opening</th>
         <th>Maintainer ID</th>
-        <th>Maintainer Name</th>
-        <th>Maintainer Street</th>
-        <th>Maintainer City</th>
-        <th>Maintainer Province</th>
-        <th>Maintainer Country</th>
+        <th>Maintainer name</th>
+        <th>Maintainer street</th>
+        <th>Maintainer city</th>
+        <th>Maintainer province</th>
+        <th>Maintainer country</th>
       </tr>
     </thead>
-
+    
   </table>
   <script>
-    $(document).ready(function () {
-      $('#locationsTable').DataTable({
-        serverSide: false,
-        ajax: {
-          url: 'http://localhost:5000/locations',
-          dataSrc: '',
-        },
-        columns: [
-          { data: 'id' },
-          { data: 'name' },
-          { data: 'natural_source' },
-          { data: 'geolocation_latitude' },
-          { data: 'geolocation_longitude' },
-          { data: 'geolocation_altitude' },
-          { data: 'year_of_opening' },
-          { data: 'maintainer_id' },
-          { data: 'maintainer_name' },
-          { data: 'maintainer_street' },
-          { data: 'maintainer_city' },
-          { data: 'maintainer_province' },
-          { data: 'maintainer_country' },
-        ],
-      });
+    const BACKEND_LOCATIONS_URL = 'http://localhost:5000/locations';
+
+    // Initialse datatable
+    const locationsTable = $('#locationsTable').DataTable({
+      searching: false,
+      ajax: {
+        url: BACKEND_LOCATIONS_URL,
+        dataSrc: '',
+      },
+      columns: [
+        { data: 'id' },
+        { data: 'name' },
+        { data: 'natural_source' },
+        { data: 'geolocation_latitude' },
+        { data: 'geolocation_longitude' },
+        { data: 'geolocation_altitude' },
+        { data: 'year_of_opening' },
+        { data: 'maintainer_id' },
+        { data: 'maintainer_name' },
+        { data: 'maintainer_street' },
+        { data: 'maintainer_city' },
+        { data: 'maintainer_province' },
+        { data: 'maintainer_country' },
+      ],
     });
+
+    // Initialize search query handler
+    const searchQuery = $('#query').get(0);
+    const searchField = $('#field').get(0);
+    const searchHandler = function (event) {
+      var newUrl = new URL(BACKEND_LOCATIONS_URL);
+      newUrl.searchParams.append("q", searchQuery.value);
+      newUrl.searchParams.append("f", searchField.value);
+      locationsTable.ajax.url(newUrl);
+      locationsTable.ajax.reload();
+    }
+    searchQuery.addEventListener('input', searchHandler);
+    searchField.addEventListener('input', searchHandler);
+
+
+
   </script>
 </body>
+
+<!-- table.ajax.reload(); -->
 
 </html>

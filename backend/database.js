@@ -7,6 +7,15 @@ const pool = new Pool({
     database: 'or',
 })
 
+function isIncluded(element, query, field) {
+    if (field == 'wildcard') {
+        return JSON.stringify(element).toLowerCase().includes(query.toLowerCase());
+    } else {
+        value = String(element[field]).toLowerCase();
+        return value.includes(query.toLowerCase());
+    }
+}
+
 const getLocations = (request, response) => {
     pool.query('SELECT locations.*, \
                 maintainers.id AS maintainer_id, maintainers.name AS maintainer_name, maintainers.street AS maintainer_street, \
@@ -18,7 +27,15 @@ const getLocations = (request, response) => {
         if (error) {
             throw error
         }
-        response.status(200).json(result.rows)
+
+        // Filter
+        q = request.query.q;
+        f = request.query.f;
+        if (q && f) {
+            response.status(200).json(result.rows.filter((el) => isIncluded(el, q, f)));
+        } else {
+            response.status(200).json(result.rows)
+        }
     })
 }
 
