@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 
 <head>
-  <title>Explore - Locations of free drinking water</title>
+  <title>Explore - Locations of free drinking water</title>  
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" href="styles.css">
   <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
   <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
@@ -12,7 +13,7 @@
   <div>
     <h1>Locations of free drinking water</h1>
   </div>
-  <form action="">
+  <form class="form-inline" action="">
     <label for="query">Search:</label>
     <input type="text" id="query" placeholder="Type a query" name="query">
     <select id="field" name="field">
@@ -31,7 +32,10 @@
       <option value="maintainer_province">Maintainer province</option>
       <option value="maintainer_country">Maintainer country</option>
     </select>
+    <a id="download-csv">Download as CSV</a>
+    <a id="download-json">Download as JSON</a>
   </form>
+
   <br />
   <table id="locationsTable" class="display nowrap" style="width:100%">
     <thead>
@@ -54,13 +58,16 @@
     
   </table>
   <script>
-    const BACKEND_LOCATIONS_URL = 'http://localhost:5000/locations';
+    const BACKEND_HOST = 'http://localhost:5000';
+    const BACKEND_LOCATIONS_PATH = BACKEND_HOST + '/locations';
+    const BACKEND_LOCATIONS_CSV_PATH = BACKEND_HOST + '/locations/csv';
+    const BACKEND_LOCATIONS_JSON_PATH = BACKEND_HOST + '/locations/json';
 
     // Initialse datatable
     const locationsTable = $('#locationsTable').DataTable({
       searching: false,
       ajax: {
-        url: BACKEND_LOCATIONS_URL,
+        url: BACKEND_LOCATIONS_PATH,
         dataSrc: '',
       },
       columns: [
@@ -80,13 +87,28 @@
       ],
     });
 
-    // Initialize search query handler
     const searchQuery = $('#query').get(0);
     const searchField = $('#field').get(0);
+    const downloadCsvButton = $('#download-csv').get(0);
+    const downloadJsonButton = $('#download-json').get(0);
+    downloadCsvButton.href = BACKEND_LOCATIONS_CSV_PATH;
+    downloadJsonButton.href = BACKEND_LOCATIONS_JSON_PATH;
+
+    // Define search query handler
     const searchHandler = function (event) {
-      var newUrl = new URL(BACKEND_LOCATIONS_URL);
-      newUrl.searchParams.append("q", searchQuery.value);
-      newUrl.searchParams.append("f", searchField.value);
+      var newUrl = new URL(BACKEND_LOCATIONS_PATH);
+      var newCsvUrl = new URL(BACKEND_LOCATIONS_CSV_PATH);
+      var newJsonUrl = new URL(BACKEND_LOCATIONS_JSON_PATH);
+
+      // Update URLs
+      for (const url of [newUrl, newCsvUrl, newJsonUrl]) {
+        url.searchParams.append("q", searchQuery.value);
+        url.searchParams.append("f", searchField.value);
+      }
+
+      // Set updated URLs
+      downloadCsvButton.href = newCsvUrl;
+      downloadJsonButton.href = newJsonUrl;
       locationsTable.ajax.url(newUrl);
       locationsTable.ajax.reload();
     }
