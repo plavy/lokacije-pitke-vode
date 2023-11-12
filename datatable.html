@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Explore - Locations of free drinking water</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+</head>
+
+<body>
+  <div>
+    <h1>Locations of free drinking water</h1>
+  </div>
+  <table id="locationsTable" class="display nowrap" style="width:100%">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Natural source</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Altitude</th>
+        <th>Year of opening</th>
+        <th>Maintainer ID</th>
+        <th>Maintainer Name</th>
+        <th>Maintainer Street</th>
+        <th>Maintainer City</th>
+        <th>Maintainer Province</th>
+        <th>Maintainer Country</th>
+      </tr>
+    </thead>
+
+  </table>
+  <script>
+    $(document).ready(function () {
+      $('#locationsTable').DataTable({
+        serverSide: false,
+        ajax: {
+          url: 'http://localhost:5000/locations',
+          dataSrc: '',
+        },
+        columns: [
+          { data: 'id' },
+          { data: 'name' },
+          { data: 'natural_source' },
+          { data: 'geolocation_latitude' },
+          { data: 'geolocation_longitude' },
+          { data: 'geolocation_altitude' },
+          { data: 'year_of_opening' },
+          { data: 'maintainer_id' },
+          { data: 'maintainer_name' },
+          { data: 'maintainer_street' },
+          { data: 'maintainer_city' },
+          { data: 'maintainer_province' },
+          { data: 'maintainer_country' },
+        ],
+      });
+    });
+  </script>
+</body>
+
+</html>

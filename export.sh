@@ -11,7 +11,8 @@ pg_dump --clean > dump.sql
 # Export to CSV
 psql -c "\copy
   (SELECT locations.*,
-    maintainers.*
+    maintainers.id AS maintainer_id, maintainers.name AS maintainer_name, maintainers.street AS maintainer_street,
+    maintainers.city AS maintainer_city, maintainers.province AS maintainer_province, maintainers.country AS maintainer_country
 		FROM locations
     INNER JOIN locations_maintainers on locations.id = locations_maintainers.location_id
     INNER JOIN maintainers ON locations_maintainers.maintainer_id = maintainers.id
@@ -23,8 +24,7 @@ TO '${PWD}/locations.csv' DELIMITER ',' CSV HEADER"
 psql -At -c "
 SELECT JSON_AGG(tab)
 FROM
-  (SELECT locations.*,
-    JSON_AGG(maintainers.*) AS maintainers
+  (SELECT locations.*, JSON_AGG(maintainers.*) AS maintainers
     FROM locations
     INNER JOIN locations_maintainers on locations.id = locations_maintainers.location_id
     INNER JOIN maintainers ON locations_maintainers.maintainer_id = maintainers.id
