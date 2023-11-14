@@ -26,7 +26,12 @@ async function getTable(q, f) {
         ORDER BY locations.id');
     // Filter
     if (q) {
-        return result.rows.filter((el) => isIncluded(el, q, f));
+        var filteredRows = result.rows.filter((el) => isIncluded(el, q, f));
+        var idSet = new Set()
+        for(var row of filteredRows) {
+            idSet.add(row.id)
+        }
+        return result.rows.filter((el) => idSet.has(el.id));
     } else {
         return result.rows;
     }

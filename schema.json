@@ -1,0 +1,117 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "https://or.plavy.me/locations.json",
+    "type": "array",
+    "title": "Locations of free drinking water",
+    "description": "Open dataset with locations where drinking water is available for free.",
+    "items": {
+        "type": "object",
+        "title": "Location",
+        "description": "Object of one Location",
+        "required": [
+            "id",
+            "natural_source",
+            "geolocation_latitude",
+            "geolocation_longitude",
+            "geolocation_altitude",
+            "maintainers"
+        ],
+        "properties": {
+            "id": {
+                "type": "integer",
+                "title": "ID",
+                "description": "ID of the water location"
+            },
+            "name": {
+                "type": [
+                    "string",
+                    "null"
+                ],
+                "title": "Name",
+                "description": "Name of the water location"
+            },
+            "natural_source": {
+                "type": "boolean",
+                "title": "Natural source",
+                "description": "If water is from natural source or water system",
+                "examples": [
+                    false,
+                    true
+                ]
+            },
+            "geolocation_latitude": {
+                "type": "number",
+                "title": "Latitude",
+                "description": "Latitude of the water location"
+            },
+            "geolocation_longitude": {
+                "type": "number",
+                "title": "Longitude",
+                "description": "Longitude of the water location"
+            },
+            "geolocation_altitude": {
+                "type": "number",
+                "title": "Altitude",
+                "description": "Altitude of the water location"
+            },
+            "year_of_opening": {
+                "type": [
+                    "integer",
+                    "null"
+                ],
+                "title": "Year of opening",
+                "description": "Year when the water location was put into operation"
+            },
+            "maintainers": {
+                "type": "array",
+                "title": "Maintainers",
+                "description": "Responsible maintainer for the water location",
+                "items": {
+                    "type": "object",
+                    "title": "Maintainer",
+                    "description": "Object of one Maintainer",
+                    "required": [
+                        "id",
+                        "name",
+                        "street",
+                        "city",
+                        "province",
+                        "country"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "integer",
+                            "title": "ID",
+                            "description": "ID of the maintainer"
+                        },
+                        "name": {
+                            "type": "string",
+                            "title": "Name",
+                            "description": "Name of the maintainer"
+                        },
+                        "street": {
+                            "type": "string",
+                            "title": "Street",
+                            "description": "Street address of the maintainer"
+                        },
+                        "city": {
+                            "type": "string",
+                            "title": "City",
+                            "description": "City of the maintainer"
+                        },
+                        "province": {
+                            "type": "string",
+                            "title": "Province",
+                            "description": "Province or region of the maintainer"
+                        },
+                        "country": {
+                            "type": "string",
+                            "title": "Country",
+                            "description": "Country of the maintainer"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

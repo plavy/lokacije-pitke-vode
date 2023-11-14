@@ -1,12 +1,15 @@
 #!/bin/bash
 
+# Directory to export
+DIR=${PWD}/..
+
 # Set postgres variables
 export PGUSER=postgres
 export PGPASSWORD=postgres
 export PGDATABASE=or
 
 # Dump database
-pg_dump --clean > dump.sql
+pg_dump --clean > ${DIR}/dump.sql
 
 # Export to CSV
 psql -c "\copy
@@ -18,7 +21,7 @@ psql -c "\copy
     INNER JOIN maintainers ON locations_maintainers.maintainer_id = maintainers.id
     ORDER BY locations.id
   )
-TO '${PWD}/locations.csv' DELIMITER ',' CSV HEADER"
+TO '${DIR}/locations.csv' DELIMITER ',' CSV HEADER"
 
 # Export to JSON
 psql -At -c "
@@ -31,6 +34,6 @@ FROM
     GROUP BY locations.id
     ORDER BY locations.id
   ) AS tab;
-" -o ${PWD}/locations.json
+" -o ${DIR}/locations.json
 
-jq . locations.json
+jq . ${DIR}/locations.json
