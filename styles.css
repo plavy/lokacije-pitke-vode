@@ -1,6 +1,49 @@
+body {
+  font-family: "Ubuntu", sans-serif;
+  margin: 1em;
+}
+
+h1 {
+}
+
+
+a {
+  border-radius: 2em;
+  padding: 0.4em 2em;
+  background-color: lightblue;
+  text-decoration: none
+}
+
+a:link {
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+a:hover {
+  color: black;
+  background-color: lightgray;
+}
+
+a:active {
+  color: black;
+}
+
+select {
+  border-radius: 2em;
+  padding: 0.4em 0.4em;
+  background-color: lightblue;
+}
+
+input {
+  border-radius: 2em;
+  padding: 0.4em 0.4em;
+}
+
 /* .form-inline {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
   } */
-  
