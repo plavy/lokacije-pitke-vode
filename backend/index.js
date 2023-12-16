@@ -39,47 +39,71 @@ const NotImplementedWrapper = new ResponseWrapper("Not Implemented", "Method not
 const NotFoundIdWrapper = new ResponseWrapper("Not Found", "Resource with desired ID not found", null);
 const InternalErrorWrapper = new ResponseWrapper("Internal Server Error", "Error on server side", null);
 
-app.get('/', (request, response) => {
-  response.json({ "/": 'Backend index', "/locations": "Locations of free drinking water" })
-})
+app.route('/')
+  // TODO: Return API reference
+  .get((request, response) => {
+    response.json({ "/": 'Backend index', "/locations": "Locations of free drinking water" })
+  }).
+  all((request, response) => {
+    response.status(501).json(NotImplementedWrapper);
+  })
 
-// Get filtered locations as table
-app.get('/locations/table', async (request, response) => {
-  response.status(200).json(await db.getLocationsTable(request.query.q, request.query.f));
-})
+app.route('/locations/table')
+  // Get filtered locations as table
+  .get(async (request, response) => {
+    const rows = await db.getLocationsTable(request.query.q, request.query.f)
+    const responseWrap = new ResponseWrapper("OK", "Fetched table of locations.", rows);
+    response.status(200).json(responseWrap);
+  })
+  .all((request, response) => {
+    response.status(501).json(NotImplementedWrapper);
+  })
 
-// Get filtered locations as CSV
-app.get('/locations/csv', async (request, response) => {
-  const rows = await db.getLocationsTable(request.query.q, request.query.f)
-  try {
-    const parser = new Parser();
-    const csv = parser.parse(rows);
-    response.attachment('locations_filtered.csv');
-    response.status(200).send(csv);
-  } catch (err) {
-    response.status(500)
-  }
-})
+app.route('/locations/csv')
+  // Get CSV file of locations
+  .get(async (request, response) => {
+    const rows = await db.getLocationsTable(request.query.q, request.query.f)
+    try {
+      const parser = new Parser();
+      const csv = parser.parse(rows);
+      response.attachment('locations_filtered.csv');
+      response.status(200).send(csv);
+    } catch (err) {
+      response.status(500)
+    }
+  })
+  .all((request, response) => {
+    response.status(501).json(NotImplementedWrapper);
+  })
 
-// Get locations filtered as JSON
-app.get('/locations/json', async (request, response) => {
-  const elements = await db.getLocations(request.query.q, request.query.f)
-  response.attachment('locations_filtered.json');
-  response.status(200).json(elements);
-})
+app.route('/locations/json')
+  // Get JSON file of locations
+  .get(async (request, response) => {
+    const elements = await db.getLocations(request.query.q, request.query.f)
+    response.attachment('locations_filtered.json');
+    response.status(200).json(elements);
+  })
+  .all((request, response) => {
+    response.status(501).json(NotImplementedWrapper);
+  })
 
 app.route('/locations')
   // Get all locations
   .get(async (request, response) => {
     const elements = await db.getLocations();
-    const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", elements);
-    response.status(200).json(responseWrap);
+    if (elements.length > 1) {
+      const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", elements);
+      response.status(200).json(responseWrap);
+    } else {
+      response.status(500).json(InternalErrorWrapper);
+    }
   })
   // Create new location
   .post(async (request, response) => {
     const id = await db.createLocation(new LocationDTO(request.body), request.body.maintainer_ids);
     const elements = await db.getLocations(id.toString(), "id", true);
     if (elements.length == 1) {
+      response.location(`http://localhost:${port}` + '/locations/' + id);
       response.status(201).json(new ResponseWrapper("Created", "Created new location", elements[0]));
     } else {
       response.status(500).json(InternalErrorWrapper);
