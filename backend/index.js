@@ -51,9 +51,13 @@ app.route('/')
 app.route('/locations/table')
   // Get filtered locations as table
   .get(async (request, response) => {
-    const rows = await db.getLocationsTable(request.query.q, request.query.f)
-    const responseWrap = new ResponseWrapper("OK", "Fetched table of locations.", rows);
-    response.status(200).json(responseWrap);
+    try {
+      const rows = await db.getLocationsTable(request.query.q, request.query.f)
+      const responseWrap = new ResponseWrapper("OK", "Fetched table of locations.", rows);
+      response.status(200).json(responseWrap);
+    } catch (e) {
+      response.status(500).json(InternalErrorWrapper);
+    }
   })
   .all((request, response) => {
     response.status(501).json(NotImplementedWrapper);
@@ -62,14 +66,14 @@ app.route('/locations/table')
 app.route('/locations/csv')
   // Get CSV file with filtered locations
   .get(async (request, response) => {
-    const rows = await db.getLocationsTable(request.query.q, request.query.f)
     try {
+    const rows = await db.getLocationsTable(request.query.q, request.query.f)
       const parser = new Parser();
       const csv = parser.parse(rows);
       response.attachment('locations_filtered.csv');
       response.status(200).send(csv);
-    } catch (err) {
-      response.status(500)
+    } catch (e) {
+      response.status(500).json(InternalErrorWrapper);
     }
   })
   .all((request, response) => {
@@ -79,9 +83,13 @@ app.route('/locations/csv')
 app.route('/locations/json')
   // Get JSON file with filtered locations
   .get(async (request, response) => {
-    const elements = await db.getLocations(request.query.q, request.query.f)
-    response.attachment('locations_filtered.json');
-    response.status(200).json(elements);
+    try {
+      const elements = await db.getLocations(request.query.q, request.query.f)
+      response.attachment('locations_filtered.json');
+      response.status(200).json(elements);
+    } catch (e) {
+      response.status(500).json(InternalErrorWrapper);
+    }
   })
   .all((request, response) => {
     response.status(501).json(NotImplementedWrapper);
@@ -90,22 +98,30 @@ app.route('/locations/json')
 app.route('/locations')
   // Get all locations
   .get(async (request, response) => {
-    const elements = await db.getLocations();
-    if (elements.length > 1) {
-      const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", elements);
-      response.status(200).json(responseWrap);
-    } else {
+    try {
+      const elements = await db.getLocations();
+      if (elements.length > 1) {
+        const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", elements);
+        response.status(200).json(responseWrap);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
   // Create new location
   .post(async (request, response) => {
-    const id = await db.createLocation(new LocationDTO(request.body), request.body.maintainer_ids);
-    const elements = await db.getLocations(id.toString(), "id", true);
-    if (elements.length == 1) {
-      response.location(`http://localhost:${port}` + '/locations/' + id);
-      response.status(201).json(new ResponseWrapper("Created", "Created new location", elements[0]));
-    } else {
+    try {
+      const id = await db.createLocation(new LocationDTO(request.body), request.body.maintainer_ids);
+      const elements = await db.getLocations(id.toString(), "id", true);
+      if (elements.length == 1) {
+        response.location(`http://localhost:${port}` + '/locations/' + id);
+        response.status(201).json(new ResponseWrapper("Created", "Created new location", elements[0]));
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
@@ -116,39 +132,52 @@ app.route('/locations')
 app.route('/locations/:id')
   // Get specific location
   .get(async (request, response) => {
-    const elements = await db.getLocations(request.params.id, "id", true);
-    if (elements.length == 1) {
-      const responseWrap = new ResponseWrapper("OK", "Fetched desired location.", elements[0]);
-      response.status(200).json(responseWrap);
-    } else if (elements.length < 1) {
-      response.status(404).json(NotFoundIdWrapper);
-    } else {
+    try {
+      const elements = await db.getLocations(request.params.id, "id", true);
+      if (elements.length == 1) {
+        const responseWrap = new ResponseWrapper("OK", "Fetched desired location.", elements[0]);
+        response.status(200).json(responseWrap);
+      } else if (elements.length < 1) {
+        response.status(404).json(NotFoundIdWrapper);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
   // Update specific location
   .put(async (request, response) => {
-    const elements = await db.getLocations(request.params.id, "id", true);
-    if (elements.length == 1) {
-      await db.updateLocation(request.params.id, new LocationDTO(request.body));
-      const new_elements = await db.getLocations(request.params.id, "id", true);
-      response.status(200).json(new ResponseWrapper("OK", "Location updated.", new_elements[0]))
-    } else if (elements.length < 1) {
-      response.status(404).json(NotFoundIdWrapper);
-    } else {
+    try {
+      // Make sure location exists
+      const elements = await db.getLocations(request.params.id, "id", true);
+      if (elements.length == 1) {
+        await db.updateLocation(request.params.id, new LocationDTO(request.body));
+        const new_elements = await db.getLocations(request.params.id, "id", true);
+        response.status(200).json(new ResponseWrapper("OK", "Location updated.", new_elements[0]))
+      } else if (elements.length < 1) {
+        response.status(404).json(NotFoundIdWrapper);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
   // Delete specific location
   .delete(async (request, response) => {
-    // Make sure location exists
-    const elements = await db.getLocations(request.params.id, "id", true);
-    if (elements.length == 1) {
-      await db.deleteLocation(request.params.id);
-      response.status(200).json(new ResponseWrapper("OK", "Location deleted.", elements[0]));
-    } else if (elements.length < 1) {
-      response.status(404).json(NotFoundIdWrapper);
-    } else {
+    try {
+      // Make sure location exists
+      const elements = await db.getLocations(request.params.id, "id", true);
+      if (elements.length == 1) {
+        await db.deleteLocation(request.params.id);
+        response.status(200).json(new ResponseWrapper("OK", "Location deleted.", elements[0]));
+      } else if (elements.length < 1) {
+        response.status(404).json(NotFoundIdWrapper);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
@@ -159,14 +188,19 @@ app.route('/locations/:id')
 app.route('/locations/:id/maintainers')
   // Update maintainers for location
   .put(async (request, response) => {
-    const elements = await db.getLocations(request.params.id, "id", true);
-    if (elements.length == 1) {
-      await db.updateLocationMaintainers(request.params.id, request.body.maintainer_ids);
-      const new_elements = await db.getLocations(request.params.id, "id", true);
-      response.status(200).json(new ResponseWrapper("OK", "Location maintainers updated.", new_elements[0]))
-    } else if (elements.length < 1) {
-      response.status(404).json(NotFoundIdWrapper);
-    } else {
+    try {
+      // Make sure location exists
+      const elements = await db.getLocations(request.params.id, "id", true);
+      if (elements.length == 1) {
+        await db.updateLocationMaintainers(request.params.id, request.body.maintainer_ids);
+        const new_elements = await db.getLocations(request.params.id, "id", true);
+        response.status(200).json(new ResponseWrapper("OK", "Location maintainers updated.", new_elements[0]))
+      } else if (elements.length < 1) {
+        response.status(404).json(NotFoundIdWrapper);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })
@@ -177,9 +211,13 @@ app.route('/locations/:id/maintainers')
 app.route('/maintainers')
   // Get all maintainers
   .get(async (request, response) => {
-    const elements = await db.getMaintainers();
-    const responseWrap = new ResponseWrapper("OK", "Fetched list of maintainers.", elements);
-    response.status(200).json(responseWrap);
+    try {
+      const elements = await db.getMaintainers();
+      const responseWrap = new ResponseWrapper("OK", "Fetched list of maintainers.", elements);
+      response.status(200).json(responseWrap);
+    } catch (e) {
+      response.status(500).json(InternalErrorWrapper);
+    }
   })
   .all((request, response) => {
     response.status(501).json(NotImplementedWrapper);
@@ -188,13 +226,17 @@ app.route('/maintainers')
 app.route('/maintainers/:id')
   // Get specific maintainer
   .get(async (request, response) => {
-    const elements = await db.getMaintainers(request.params.id);
-    if (elements.length == 1) {
-      const responseWrap = new ResponseWrapper("OK", "Fetched desired maintainer.", elements[0]);
-      response.status(200).json(responseWrap);
-    } else if (elements.length < 1) {
-      response.status(404).json(NotFoundIdWrapper);
-    } else {
+    try {
+      const elements = await db.getMaintainers(request.params.id);
+      if (elements.length == 1) {
+        const responseWrap = new ResponseWrapper("OK", "Fetched desired maintainer.", elements[0]);
+        response.status(200).json(responseWrap);
+      } else if (elements.length < 1) {
+        response.status(404).json(NotFoundIdWrapper);
+      } else {
+        response.status(500).json(InternalErrorWrapper);
+      }
+    } catch (e) {
       response.status(500).json(InternalErrorWrapper);
     }
   })

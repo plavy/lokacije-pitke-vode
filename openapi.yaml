@@ -276,6 +276,12 @@ paths:
                     items:
                       type: object
                       description: Row of a table
+        '500':
+          description: Error on server side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
   
   /locations/json:
     get:
@@ -309,6 +315,12 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Location'
+        '500':
+          description: Error on server side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
   
   /locations/csv:
     get:
@@ -340,6 +352,10 @@ paths:
             text/csv: {}
         '500':
           description: Error on server side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
   
 components:
   schemas:
