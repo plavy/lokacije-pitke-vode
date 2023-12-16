@@ -60,7 +60,7 @@ app.route('/locations/table')
   })
 
 app.route('/locations/csv')
-  // Get CSV file of locations
+  // Get CSV file with filtered locations
   .get(async (request, response) => {
     const rows = await db.getLocationsTable(request.query.q, request.query.f)
     try {
@@ -77,7 +77,7 @@ app.route('/locations/csv')
   })
 
 app.route('/locations/json')
-  // Get JSON file of locations
+  // Get JSON file with filtered locations
   .get(async (request, response) => {
     const elements = await db.getLocations(request.query.q, request.query.f)
     response.attachment('locations_filtered.json');
@@ -180,6 +180,23 @@ app.route('/maintainers')
     const elements = await db.getMaintainers();
     const responseWrap = new ResponseWrapper("OK", "Fetched list of maintainers.", elements);
     response.status(200).json(responseWrap);
+  })
+  .all((request, response) => {
+    response.status(501).json(NotImplementedWrapper);
+  })
+
+app.route('/maintainers/:id')
+  // Get specific maintainer
+  .get(async (request, response) => {
+    const elements = await db.getMaintainers(request.params.id);
+    if (elements.length == 1) {
+      const responseWrap = new ResponseWrapper("OK", "Fetched desired maintainer.", elements[0]);
+      response.status(200).json(responseWrap);
+    } else if (elements.length < 1) {
+      response.status(404).json(NotFoundIdWrapper);
+    } else {
+      response.status(500).json(InternalErrorWrapper);
+    }
   })
   .all((request, response) => {
     response.status(501).json(NotImplementedWrapper);

@@ -56,6 +56,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NullWrapper'
+  
   /locations/{id}:
     parameters:
         - name: id
@@ -142,6 +143,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NullWrapper'
+  
   /locations/{id}/maintainers:
     parameters:
       - name: id
@@ -185,6 +187,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NullWrapper'
+  
   /maintainers:
     get:
       summary: Get all maintainers
@@ -204,6 +207,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NullWrapper'
+  /maintainers/{id}:
+    parameters:
+        - name: id
+          in: path
+          description: Maintainer id
+          required: true
+          schema:
+            type: integer
+    get:
+      summary: Get specific maintainer
+      description: Returns maintainer specified by id
+      tags:
+        - Maintainer
+      responses:
+        '200':
+          description: Fetched desired maintainer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintainerWrapper'
+        '404':
+          description: Resource with desired ID not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
+        '500':
+          description: Error on server side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
+  
   /locations/table:
     get:
       summary: Get filtered locations as table
@@ -240,6 +276,7 @@ paths:
                     items:
                       type: object
                       description: Row of a table
+  
   /locations/json:
     get:
       summary: Get JSON file with filtered locations
@@ -272,6 +309,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Location'
+  
   /locations/csv:
     get:
       summary: Get CSV file with filtered locations
@@ -318,6 +356,18 @@ components:
           type: string
         country:  
           type: string
+  
+    MaintainerWrapper:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the request
+        message:
+          type: string
+          description: Description of the status
+        response:
+          $ref: '#/components/schemas/Maintainer'
   
     MaintainerListWrapper:
       type: object
@@ -379,7 +429,7 @@ components:
           description: Description of the status
         response:
           type: array
-          descritption: List of locations
+          description: List of locations
           items:
             $ref: '#/components/schemas/Location'
 

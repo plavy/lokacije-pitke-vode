@@ -77,13 +77,27 @@ async function getLocations(q, f, exactMatch) {
     }
 }
 
-async function getMaintainers() {
-    var result = await pool.query('SELECT JSON_AGG(tab) \
+async function getMaintainers(id) {
+    if (id) {
+        var result = await pool.query('SELECT JSON_AGG(tab) \
         FROM \
         (SELECT * \
             FROM maintainers \
-        ) AS tab;');
-    return result.rows[0].json_agg;
+            WHERE id = $1 \
+        ) AS tab;', [id]);
+        if (result.rows[0].json_agg) {
+            return result.rows[0].json_agg;
+        } else {
+            return [];
+        }
+    } else {
+        var result = await pool.query('SELECT JSON_AGG(tab) \
+        FROM \
+        (SELECT * \
+            FROM maintainers \
+            ) AS tab;');
+        return result.rows[0].json_agg;
+    }
 }
 
 async function deleteLocation(id) {
