@@ -1,0 +1,776 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Locations of free drinking water API",
+    "description": "API of open dataset listing locations where drinking water is available for free.",
+    "version": "3.0.1",
+    "contact": {
+      "name": "Tin Plavec",
+      "url": "https://plavy.me/"
+    },
+    "license": {
+      "name": "Creative Commons ShareAlike 4.0 International",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get index of this API",
+        "tags": [
+          "API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched index",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/reference": {
+      "get": {
+        "summary": "Get reference for this API",
+        "tags": [
+          "API"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched reference",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations": {
+      "get": {
+        "summary": "Get all locations",
+        "description": "Returns list of all locations",
+        "tags": [
+          "Location"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched list of locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationListWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new location",
+        "description": "Creates a new location based on sent properties",
+        "tags": [
+          "Location"
+        ],
+        "responses": {
+          "201": {
+            "description": "Created new location",
+            "headers": {
+              "Location": {
+                "description": "URI of the created location",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Location id",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get specific location",
+        "description": "Returns location specified by id",
+        "tags": [
+          "Location"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched desired location",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationWrapper"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource with desired ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update specific location",
+        "description": "Updates location info specified by id",
+        "tags": [
+          "Location"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Location updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationWrapper"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource with desired ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete specific location",
+        "description": "Deletes location specified by id",
+        "tags": [
+          "Location"
+        ],
+        "responses": {
+          "200": {
+            "description": "Location deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationWrapper"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource with desired ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{id}/maintainers": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Location id",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "put": {
+        "summary": "Update maintainers for location",
+        "description": "Updates location maintainers specified by id",
+        "tags": [
+          "Location"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "maintainer_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Location maintainers updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LocationWrapper"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource with desired ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintainers": {
+      "get": {
+        "summary": "Get all maintainers",
+        "description": "Returns list of all maintainers",
+        "tags": [
+          "Maintainer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched list of maintainers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintainerListWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maintainers/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "description": "Maintainer id",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Get specific maintainer",
+        "description": "Returns maintainer specified by id",
+        "tags": [
+          "Maintainer"
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched desired maintainer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaintainerWrapper"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource with desired ID not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/table": {
+      "get": {
+        "summary": "Get filtered locations as table",
+        "description": "Return filtered locations as table rows",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          },
+          {
+            "in": "query",
+            "name": "f",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Field name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Fetched table of locations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "Status of the request"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Description of the status"
+                    },
+                    "response": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "description": "Row of a table"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/json": {
+      "get": {
+        "summary": "Get JSON file with filtered locations",
+        "description": "Return filtered locations as JSON file",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          },
+          {
+            "in": "query",
+            "name": "f",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Field name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON file",
+            "headers": {
+              "Content-Disposition": {
+                "description": "Attachment definition",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "attachment; filename=\"locations_filtered.json\""
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/csv": {
+      "get": {
+        "summary": "Get CSV file with filtered locations",
+        "description": "Return filtered locations as CSV file",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query"
+          },
+          {
+            "in": "query",
+            "name": "f",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Field name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CSV file",
+            "headers": {
+              "Content-Disposition": {
+                "description": "Attachment definition",
+                "schema": {
+                  "type": "string"
+                },
+                "example": "attachment; filename=\"locations_filtered.csv\""
+              }
+            },
+            "content": {
+              "text/csv": {}
+            }
+          },
+          "500": {
+            "description": "Error on server side",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NullWrapper"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Maintainer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "province": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "MaintainerWrapper": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description of the status"
+          },
+          "response": {
+            "$ref": "#/components/schemas/Maintainer"
+          }
+        }
+      },
+      "MaintainerListWrapper": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description of the status"
+          },
+          "response": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Maintainer"
+            }
+          }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "description": "Full location object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "natural_source": {
+            "type": "boolean"
+          },
+          "geolocation_latitude": {
+            "type": "number"
+          },
+          "geolocation_longitude": {
+            "type": "number"
+          },
+          "geolocation_altitude": {
+            "type": "number"
+          },
+          "year_of_opening": {
+            "type": "integer"
+          },
+          "maintainers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Maintainer"
+            }
+          }
+        }
+      },
+      "LocationWrapper": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description of the status"
+          },
+          "response": {
+            "$ref": "#/components/schemas/Location"
+          }
+        }
+      },
+      "LocationListWrapper": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description of the status"
+          },
+          "response": {
+            "type": "array",
+            "description": "List of locations",
+            "items": {
+              "$ref": "#/components/schemas/Location"
+            }
+          }
+        }
+      },
+      "NullWrapper": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Status of the request"
+          },
+          "message": {
+            "type": "string",
+            "description": "Description of the status"
+          },
+          "response": {
+            "type": "object",
+            "nullable": true
+          }
+        }
+      },
+      "LocationDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "natural_source": {
+            "type": "boolean"
+          },
+          "geolocation_latitude": {
+            "type": "number"
+          },
+          "geolocation_longitude": {
+            "type": "number"
+          },
+          "geolocation_altitude": {
+            "type": "number"
+          },
+          "year_of_opening": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }
+}

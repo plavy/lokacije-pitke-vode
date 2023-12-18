@@ -13,6 +13,32 @@ servers:
  - url: http://localhost:5000
 
 paths:
+  /:
+    get:
+      summary: Get index of this API
+      tags:
+        - API
+      responses:
+        '200':
+          description: Fetched index
+          content:
+            application/json: {}
+  /reference:
+    get:
+      summary: Get reference for this API
+      tags:
+        - API
+      responses:
+        '200':
+          description: Fetched reference
+          content:
+            application/json: {}
+        '500':
+          description: Error on server side
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NullWrapper'
   /locations:
     get:
       summary: Get all locations

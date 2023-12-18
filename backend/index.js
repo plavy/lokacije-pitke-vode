@@ -1,11 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const path = require('path');
+const fs = require('fs')
 const db = require('./database')
 const cors = require('cors');
-
-const yup = require('yup')
 const { Parser } = require('@json2csv/plainjs');
+const yup = require('yup')
 
 const port = 5000
 
@@ -43,7 +44,7 @@ const InternalErrorWrapper = new ResponseWrapper("Internal Server Error", "Error
 app.route('/')
   .get((request, response) => {
     response.json({
-      "/": 'Backend index', "/locations": "Locations of free drinking water",
+      "/": 'Index of this API', "/locations": "Locations of free drinking water",
       "/maintainers": "Maintainers of locations", "/reference": "Reference for this API"
     })
   }).
@@ -51,10 +52,16 @@ app.route('/')
     response.status(501).json(NotImplementedWrapper);
   })
 
-app.route('reference')
+app.route('/reference')
   // Return API reference
   .get((request, response) => {
-
+    const fileName = 'openapi.json';
+    const filePath = path.join(__dirname, '..', fileName);
+    if (fs.existsSync(filePath)) {
+      response.status(200).sendFile(filePath);
+    } else {
+      response.status(500).json(InternalErrorWrapper);
+    }
   }).all((request, response) => {
     response.status(501).json(NotImplementedWrapper);
   })
