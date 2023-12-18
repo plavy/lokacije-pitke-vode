@@ -1,6 +1,6 @@
 {
   "name": "locations-backend",
-  "version": "1.0.0",
+  "version": "3.0.1",
   "description": "Locations of free drinking water",
   "main": "index.js",
   "scripts": {
