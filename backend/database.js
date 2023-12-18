@@ -113,6 +113,9 @@ async function deleteLocation(id) {
 
 async function createLocation(locationDto, maintainerIds) {
 
+    // Check if maintainers exist
+    await checkMaintainers(maintainerIds);
+
     // Determine id for location
     var locationId = await nextId('locations')
 
@@ -144,6 +147,10 @@ async function updateLocation(id, locationDto) {
 }
 
 async function updateLocationMaintainers(locationId, maintainerIds) {
+
+    // Check if maintainers exist
+    await checkMaintainers(maintainerIds);
+
     // Delete old locations_maintainers relations
     var result1 = await pool.query('DELETE \
     FROM locations_maintainers \
@@ -158,6 +165,15 @@ async function updateLocationMaintainers(locationId, maintainerIds) {
         var result2 = await pool.query('INSERT INTO locations_maintainers \
     VALUES ($1, $2, $3)',
             [relId + i, locationId, maintainerIds[i]]);
+    }
+}
+
+async function checkMaintainers(maintainerIds) {
+    for (var i in maintainerIds) {
+        const elements = await getMaintainers(maintainerIds[i]);
+        if (elements.length != 1) {
+            throw new Error("maintainer id=" + maintainerIds[i] + " doest not exist.");
+        }
     }
 }
 
