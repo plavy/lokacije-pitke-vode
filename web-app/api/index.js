@@ -30,7 +30,7 @@ let MaintainerIDsDTO = yup.array().of(yup.number().integer()).min(1).required()
 // Return API reference
 router.get('/', (request, response) => {
     const fileName = 'openapi.json';
-    const filePath = path.join(__dirname, '../..', fileName);
+    const filePath = path.join(__dirname, '../public', fileName);
     if (fs.existsSync(filePath)) {
       response.status(200).sendFile(filePath);
     } else {
