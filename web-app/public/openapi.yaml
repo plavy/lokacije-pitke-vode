@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Locations of free drinking water API
   description: API of open dataset listing locations where drinking water is available for free.
-  version: 3.0.1
+  version: 4.0.0
   contact:
     name: Tin Plavec
     url: https://plavy.me/
