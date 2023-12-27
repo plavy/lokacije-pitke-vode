@@ -7,9 +7,23 @@
 </head>
 
 <body>
-    <img src="<%= user.picture %>"></h3>
-    <h3> User: <%= user.nickname %></h3>
-    <h3> Email: <%= user.email %></h3>
-    <h3> Email verified: <%= user.email_verified %></h3>
-    <h3> ID: <%= user.sub %></h3>
+    <div class="top-bar">
+        <h1>Locations of free drinking water</h1>
+        <h3 id="my-profile"><a href="/profile">My profile</a></h3>
+        <h3><a href="/logout">Log out</a></h3>
+    </div>
+    <div>
+        <a id="goto-index" href=".">&#171;</a>
+    </div>
+    <div class="profile-container">
+        <h1 id="username"> Hi <%= user.nickname %>!
+        </h1>
+        <img src="<%= user.picture %>"></h3>
+        <h3> Email: <%= user.email %>
+        </h3>
+        <h3> Email verified: <%= user.email_verified %>
+        </h3>
+        <h3> ID: <%= user.sub %>
+        </h3>
+    </div>
 </body>

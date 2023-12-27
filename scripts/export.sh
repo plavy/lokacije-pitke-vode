@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory to export
-DIR=${PWD}/..
+DIR=${PWD}/../web-app/public
 
 # Set postgres variables
 export PGUSER=postgres

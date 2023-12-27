@@ -3,7 +3,9 @@ const bodyParser = require('body-parser')
 const app = express()
 const cors = require('cors');
 const { auth, requiresAuth } = require('express-openid-connect');
-const ResponseWrapper = require('./api/index').ResponseWrapper;
+const { ResponseWrapper, InternalErrorWrapper } = require('./api/index');
+var proc = require('child_process');
+
 
 const port = 5000
 
@@ -49,11 +51,24 @@ app.route('/list')
 
 // HTML endpoints
 app.get('/', (request, response) => {
-  response.render('home', { loggedIn: request.oidc.isAuthenticated()});
+  response.render('home', { loggedIn: request.oidc.isAuthenticated() });
 })
 
 app.get('/profile', requiresAuth(), (request, response) => {
-  response.render('profile', { user: request.oidc.user});
+  response.render('profile', { user: request.oidc.user });
+})
+
+// Refresh endpoint
+app.get('/refresh', (request, response) => {
+  proc.exec('../scripts/export.sh',
+    (error, stdout, stderr) => {
+      if (error !== null) {
+        console.log(`process exec error: ${error}`);
+        response.status(500).json(InternalErrorWrapper);
+      } else {
+        response.redirect('/');
+      }
+    });
 })
 
 // Other endpoints

@@ -13,20 +13,28 @@
 </head>
 
 <body>
-  <div>
+  <div class="top-bar">
     <h1>Locations of free drinking water</h1>
-    <h3><a href="https://github.com/plavy/or">Go to GitHub repo</a></h3>
-    <h3><a href="./locations.csv">Get locations in CSV</a></h3>
-    <h3><a href="./locations.json">Get locations in JSON</a></h3>
-    <h3><a href="./datatable.html">Explore data</a></h3>
-
     <% if(loggedIn){ %>
-    <h3><a href="/profile">My profile</a></h3>
-    <h3><a href="/logout">Log out</a></h3>
-    <% } else{ %>
-    <h3><a href="/login">Log in</a></h3>
-    <% } %>
+      <h3 id="my-profile"><a href="/profile">My profile</a></h3>
+      <h3><a href="/logout">Log out</a></h3>
+      <% } else{ %>
+        <h3 id="login"><a href="/login">Log in</a></h3>
+        <% } %>
+  </div>
+  <div class="menu">
+    <h3><a href="./locations.csv">Get CSV file</a></h3>
+    <h3><a href="./locations.json">Get JSON file</a></h3>
+    <% if(loggedIn){ %>
+      <h3><a href="/refresh">Refresh files</a></h3>
+      <% } %>
+        <h3><a href="./datatable.html">Explore data</a></h3>
+  </div>
 
+  <script
+    src="https://emgithub.com/embed-v2.js?target=https%3A%2F%2Fgithub.com%2Fplavy%2For%2Fblob%2Fmain%2FREADME.md&style=default&type=markdown&showLineNumbers=on&showFileMeta=on&showFullPath=on&showCopy=on"></script>
+  <div class="github-button">
+    <h3><a href="https://github.com/plavy/or" target="_blank">Open the GitHub repo</a></h3>
   </div>
 </body>
 

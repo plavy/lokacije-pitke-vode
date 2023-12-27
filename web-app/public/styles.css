@@ -3,15 +3,13 @@ body {
   margin: 1em;
 }
 
-h1 {
-}
-
-
 a {
   border-radius: 2em;
   padding: 0.4em 2em;
+  white-space: nowrap;
   background-color: lightblue;
-  text-decoration: none
+  text-decoration: none;
+  margin: 5px;
 }
 
 a:link {
@@ -42,8 +40,44 @@ input {
   padding: 0.4em 0.4em;
 }
 
-/* .form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-  } */
+.github-button {
+  display: flex;
+  justify-content: center;
+}
+
+.menu {
+  margin: 0 auto;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+h1 {
+  margin: 15px 5px;
+}
+
+#my-profile, #login{
+  margin-left: auto;
+}
+
+.profile-container {
+  margin: auto;
+  max-width: 900px;
+}
+
+.profile-container > h1, h3 {
+  text-align: center;
+}
+
+.profile-container > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
