@@ -59,7 +59,7 @@ app.get('/profile', requiresAuth(), (request, response) => {
 })
 
 // Refresh endpoint
-app.get('/refresh', (request, response) => {
+app.get('/refresh', requiresAuth(), (request, response) => {
   proc.exec('../scripts/export.sh',
     (error, stdout, stderr) => {
       if (error !== null) {

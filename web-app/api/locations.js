@@ -1,7 +1,7 @@
 const express = require('express')
 var router = express.Router();
 const db = require('./database')
-const { ResponseWrapper, InternalErrorWrapper, NotImplementedWrapper, NotFoundIdWrapper } = require('./index')
+const { ResponseWrapper, InternalErrorWrapper, NotImplementedWrapper, NotFoundIdWrapper, addContextToLocation, addContextToLocations } = require('./index')
 
 // Get filtered locations as table
 router.get('/table', async (request, response) => {
@@ -55,7 +55,7 @@ router.get('/', async (request, response) => {
     try {
         const elements = await db.getLocations();
         if (elements.length > 1) {
-            const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", elements);
+            const responseWrap = new ResponseWrapper("OK", "Fetched list of locations.", addContextToLocations(elements));
             response.status(200).json(responseWrap);
         } else {
             console.log(e)
@@ -73,7 +73,7 @@ router.post('/', async (request, response) => {
         const elements = await db.getLocations(id.toString(), "id", true);
         if (elements.length == 1) {
             response.location(`http://localhost:${port}` + '/locations/' + id);
-            response.status(201).json(new ResponseWrapper("Created", "Created new location", elements[0]));
+            response.status(201).json(new ResponseWrapper("Created", "Created new location", addContextToLocation(elements[0])));
         } else {
             response.status(500).json(InternalErrorWrapper);
         }
@@ -95,7 +95,7 @@ router.get('/:id', async (request, response) => {
     try {
         const elements = await db.getLocations(request.params.id, "id", true);
         if (elements.length == 1) {
-            const responseWrap = new ResponseWrapper("OK", "Fetched desired location.", elements[0]);
+            const responseWrap = new ResponseWrapper("OK", "Fetched desired location.", addContextToLocation(elements[0]));
             response.status(200).json(responseWrap);
         } else if (elements.length < 1) {
             response.status(404).json(NotFoundIdWrapper);
@@ -115,7 +115,7 @@ router.put('/:id', async (request, response) => {
         if (elements.length == 1) {
             await db.updateLocation(request.params.id, await LocationDTO.validate(request.body));
             const new_elements = await db.getLocations(request.params.id, "id", true);
-            response.status(200).json(new ResponseWrapper("OK", "Location updated.", new_elements[0]))
+            response.status(200).json(new ResponseWrapper("OK", "Location updated.", addContextToLocation(new_elements[0])))
         } else if (elements.length < 1) {
             response.status(404).json(NotFoundIdWrapper);
         } else {
@@ -137,7 +137,7 @@ router.delete('/:id', async (request, response) => {
         const elements = await db.getLocations(request.params.id, "id", true);
         if (elements.length == 1) {
             await db.deleteLocation(request.params.id);
-            response.status(200).json(new ResponseWrapper("OK", "Location deleted.", elements[0]));
+            response.status(200).json(new ResponseWrapper("OK", "Location deleted.", addContextToLocation(elements[0])));
         } else if (elements.length < 1) {
             response.status(404).json(NotFoundIdWrapper);
         } else {
@@ -160,7 +160,7 @@ router.put('/:id/maintainers', async (request, response) => {
         if (elements.length == 1) {
             await db.updateLocationMaintainers(request.params.id, await MaintainerIDsDTO.validate(request.body.maintainer_ids));
             const new_elements = await db.getLocations(request.params.id, "id", true);
-            response.status(200).json(new ResponseWrapper("OK", "Location maintainers updated.", new_elements[0]))
+            response.status(200).json(new ResponseWrapper("OK", "Location maintainers updated.", addContextToLocation(new_elements[0])))
         } else if (elements.length < 1) {
             response.status(404).json(NotFoundIdWrapper);
         } else {

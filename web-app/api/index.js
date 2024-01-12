@@ -27,6 +27,23 @@ let LocationDTO = yup.object({
 
 let MaintainerIDsDTO = yup.array().of(yup.number().integer()).min(1).required()
 
+function addContextToLocation(location) {
+  location["@context"] = {
+    "@vocab": "http://schema.org/",
+    "geolocation_latitude": "latitude",
+    "geolocation_longitude": "longitude",
+    "geolocation_altitude": "elevation"
+  }
+  return location;
+}
+
+function addContextToLocations(locations) {
+  for(const i in locations) {
+    locations[i] = addContextToLocation(locations[i]);
+  }
+  return locations;
+}
+
 // Return API reference
 router.get('/', (request, response) => {
     const fileName = 'openapi.json';
@@ -48,5 +65,7 @@ module.exports = {
     NotFoundIdWrapper,
     NotImplementedWrapper,
     LocationDTO,
-    MaintainerIDsDTO
+    MaintainerIDsDTO,
+    addContextToLocation,
+    addContextToLocations
 }
