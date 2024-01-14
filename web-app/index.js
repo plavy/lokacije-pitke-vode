@@ -34,21 +34,6 @@ app.use("/api", require("./api/index").router)
 app.use("/api/locations", require("./api/locations"))
 app.use("/api/maintainers", require("./api/maintainers"))
 
-app.route('/list')
-  .get((request, response) => {
-    if (request.oidc.isAuthenticated()) {
-      response.json({
-        "/": 'Index of this API', "loggedIn": true
-      })
-    } else {
-      response.json({
-        "/": 'Index of this API', "/locations": "Locations of free drinking water",
-        "/maintainers": "Maintainers of locations", "/reference": "Reference for this API",
-        "loggedIn": false
-      })
-    }
-  })
-
 // HTML endpoints
 app.get('/', (request, response) => {
   response.render('home', { loggedIn: request.oidc.isAuthenticated() });
